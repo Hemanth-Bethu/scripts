@@ -641,15 +641,42 @@ def save_diff_to_excel_with_relationships(
         #    or as separate sheets if you prefer
         if m2one_rows or o2m_rows or m2m_rows:
             # If you want them on a single sheet, we’ll do something like below
-            df_m2one = pd.DataFrame(m2one_rows)
-            df_o2m = pd.DataFrame(o2m_rows)
-            df_m2m = pd.DataFrame(m2m_rows)
+            relationship_entries = []
 
-            df_m2one.to_excel(writer, sheet_name="Relationships", startrow=0, index=False)
-            row_offset = len(df_m2one) + 2
-            df_o2m.to_excel(writer, sheet_name="Relationships", startrow=row_offset, index=False)
-            row_offset += len(df_o2m) + 2
-            df_m2m.to_excel(writer, sheet_name="Relationships", startrow=row_offset, index=False)
+            # Many-to-One relationships
+            for row in m2one_rows:
+                relationship_entries.append({
+                    "Relationship Type": "Many-to-One",
+                    "Table A": row["Child Table"],
+                    "Column A": row["Child Cols"],
+                    "Table B": row["Parent Table"],
+                    "Column B": row["Parent Cols"]
+                })
+
+            # One-to-Many relationships
+            for row in o2m_rows:
+                relationship_entries.append({
+                    "Relationship Type": "One-to-Many",
+                    "Table A": row["Parent Table"],
+                    "Column A": "N/A",
+                    "Table B": row["Child Table"],
+                    "Column B": row["Child Cols"]
+                })
+
+            # Many-to-Many relationships
+            for row in m2m_rows:
+                relationship_entries.append({
+                    "Relationship Type": "Many-to-Many",
+                    "Table A": row["Table A"],
+                    "Column A": "N/A",
+                    "Table B": row["Table B"],
+                    "Column B": "N/A",
+                    "Bridge Table": row["Bridge Table"]
+                })
+
+            # Convert to DataFrame and write once
+            df_relationships = pd.DataFrame(relationship_entries)
+            df_relationships.to_excel(writer, sheet_name="Relationships", index=False)
 
         print(f"✅ Schema differences + relationships saved to: {DIFF_EXCEL_FILE}")
 
