@@ -38,7 +38,7 @@ def replace_in_directory(project_dir):
 
 def main():
     # Specify the project directory you want to process
-    project_dir = 'D:\\projects\\xaana_enigma_17\\addons\\report_py3o_fusion_server'  # Replace with the actual directory path
+    project_dir = 'C:\\Users\\hemanth\\Downloads\\spiffy_theme_backend'  # Replace with the actual directory path
     replace_in_directory(project_dir)
 
 if __name__ == "__main__":

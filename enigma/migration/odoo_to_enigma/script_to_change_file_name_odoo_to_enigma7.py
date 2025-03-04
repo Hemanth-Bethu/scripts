@@ -49,7 +49,7 @@ def rename_files_and_directories_in_directory(project_dir):
 
 def main():
     # Specify the project directory you want to process
-    project_dir = 'C:\\Users\\bethu\\Downloads\\spiffy_theme_backend'  # Replace with the actual directory path
+    project_dir = 'C:\\Users\\hemanth\\Downloads\\spiffy_theme_backend'  # Replace with the actual directory path
     rename_files_and_directories_in_directory(project_dir)
 
 if __name__ == "__main__":
