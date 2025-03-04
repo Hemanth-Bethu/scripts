@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20">
+<md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+<md:KeyDescriptor use="signing">
+<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+<X509Data>
+<X509Certificate>MIIC4DCCAcigAwIBAgIIHCjKJn2OzZowDQYJKoZIhvcNAQELBQAwDjEMMAoGA1UEAxMDZGhzMB4XDTE4MTAzMTA1MzIxMFoXDTI4MTAyOTA1MzIxMFowDjEMMAoGA1UEAxMDZGhzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyhu5MbtKGgQxqWgJMLjtGxeJPdL8CoCDYpiAfTvneq7n9CIckq8H4NrO0Hv6wthDiWrmSNMnS6z2WyxecgBI1VsaBXfc7hGmXlfYLIplWSypanilm2sWmQblrg16zvFm3QN8WZpa8GQ+yymrS6NiyW0QdEb/jw2v6WVYtf9vReq1X/ZYolz4nXT51RmFMGng6ylJl+JdlGBZ1UxB8c6/qWdZL2QwTWcPVjS13kNKeGrRciDUbIMqTtCWarRdl8WbZF8cO/mGelTwDPgJ2YJGvvkvJmw1cQc4ivF9tnZOoX6O/UBWbu4VBYwyxP3QS9ppDCpoQ3jV7QywH/lbsjd0tQIDAQABo0IwQDAdBgNVHQ4EFgQUz9yK44hLjLDaA1eBs2EdfQHiOakwHwYDVR0jBBgwFoAUz9yK44hLjLDaA1eBs2EdfQHiOakwDQYJKoZIhvcNAQELBQADggEBAFcaYE0WvIdGVSIFSikeUeLwzhqm89RZ8II2nFPN94Vc5nCEP1+mRWEIb7y7x1SsRQPi5kUYLZ071XQ8kZi8THAZIw33z326br4Z5yExAcLC8U1F5gvySN+kchSBVRLTwICvoe6GvDKCRfejVlxKyuZinNZblOJHqe0eIsunrhY0xhufl03dEjS9zVtnPHy36qDIzEHhBy/jDWsgDOzmJe67DWPdx2yde6gI+YzoTtz8dAVxcpqrxtuazDvpDMk/AgTg7iykVyYeCPAKvxeojMtgyfo4EvicIbVWTQB6O9dNUChV1H6djmLWs9o/S9U8ssI0pyqLyTSXBNi4ID2j6eE=</X509Certificate>
+</X509Data>
+</KeyInfo>
+</md:KeyDescriptor>
+<md:KeyDescriptor use="encryption">
+<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+<X509Data>
+<X509Certificate>MIIC4DCCAcigAwIBAgIIHCjKJn2OzZowDQYJKoZIhvcNAQELBQAwDjEMMAoGA1UEAxMDZGhzMB4XDTE4MTAzMTA1MzIxMFoXDTI4MTAyOTA1MzIxMFowDjEMMAoGA1UEAxMDZGhzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyhu5MbtKGgQxqWgJMLjtGxeJPdL8CoCDYpiAfTvneq7n9CIckq8H4NrO0Hv6wthDiWrmSNMnS6z2WyxecgBI1VsaBXfc7hGmXlfYLIplWSypanilm2sWmQblrg16zvFm3QN8WZpa8GQ+yymrS6NiyW0QdEb/jw2v6WVYtf9vReq1X/ZYolz4nXT51RmFMGng6ylJl+JdlGBZ1UxB8c6/qWdZL2QwTWcPVjS13kNKeGrRciDUbIMqTtCWarRdl8WbZF8cO/mGelTwDPgJ2YJGvvkvJmw1cQc4ivF9tnZOoX6O/UBWbu4VBYwyxP3QS9ppDCpoQ3jV7QywH/lbsjd0tQIDAQABo0IwQDAdBgNVHQ4EFgQUz9yK44hLjLDaA1eBs2EdfQHiOakwHwYDVR0jBBgwFoAUz9yK44hLjLDaA1eBs2EdfQHiOakwDQYJKoZIhvcNAQELBQADggEBAFcaYE0WvIdGVSIFSikeUeLwzhqm89RZ8II2nFPN94Vc5nCEP1+mRWEIb7y7x1SsRQPi5kUYLZ071XQ8kZi8THAZIw33z326br4Z5yExAcLC8U1F5gvySN+kchSBVRLTwICvoe6GvDKCRfejVlxKyuZinNZblOJHqe0eIsunrhY0xhufl03dEjS9zVtnPHy36qDIzEHhBy/jDWsgDOzmJe67DWPdx2yde6gI+YzoTtz8dAVxcpqrxtuazDvpDMk/AgTg7iykVyYeCPAKvxeojMtgyfo4EvicIbVWTQB6O9dNUChV1H6djmLWs9o/S9U8ssI0pyqLyTSXBNi4ID2j6eE=</X509Certificate>
+</X509Data>
+</KeyInfo>
+<md:EncryptionMethod Algorithm="http://www.w3.org/2001/04/xmlenc#rsa-1_5"/>
+</md:KeyDescriptor>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20/slo"/>
+<md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20/slo"/>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+<md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20/login"/>
+<md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20/login"/>
+</md:IDPSSODescriptor>
+<md:Organization>
+<md:OrganizationName xml:lang="en">Signon IDP</md:OrganizationName>
+<md:OrganizationDisplayName xml:lang="en">Signon IDP</md:OrganizationDisplayName>
+<md:OrganizationURL xml:lang="en"/>
+</md:Organization>
+</md:EntityDescriptor>

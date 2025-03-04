@@ -1,0 +1,185 @@
+<samlp:Response xmlns:ds=http://www.w3.org/2000/09/xmldsig# xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:xs=http://www.w3.org/2001/XMLSchema xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance Destination=https://rims.oars-dev.csda.gov.au/Saml.aspx ID="FIMRSP_eb134ae1-018f-1bf2-b578-88ce85c3b057" InResponseTo="_7205d599-57c9-4483-bf26-9e6eeffc60b5" IssueInstant="2024-06-06T01:04:21Z" Version="2.0">
+
+                <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20</saml:Issuer>
+
+                <ds:Signature Id="uuideb134ae2-018f-18b8-ad1a-88ce85c3b057">
+
+                                <ds:SignedInfo>
+
+                                                <ds:CanonicalizationMethod Algorithm=http://www.w3.org/2001/10/xml-exc-c14n#/>
+
+                                                <ds:SignatureMethod Algorithm=http://www.w3.org/2001/04/xmldsig-more#rsa-sha256/>
+
+                                                <ds:Reference URI="#FIMRSP_eb134ae1-018f-1bf2-b578-88ce85c3b057">
+
+                                                                <ds:Transforms>
+
+                                                                                <ds:Transform Algorithm=http://www.w3.org/2000/09/xmldsig#enveloped-signature/>
+
+                                                                                <ds:Transform Algorithm=http://www.w3.org/2001/10/xml-exc-c14n#>
+
+                                                                                                <ec:InclusiveNamespaces xmlns:ec=http://www.w3.org/2001/10/xml-exc-c14n# PrefixList="ds saml samlp xs xsi"/>
+
+                                                                                </ds:Transform>
+
+                                                                </ds:Transforms>
+
+                                                                <ds:DigestMethod Algorithm=http://www.w3.org/2001/04/xmlenc#sha256/>
+
+                                                                <ds:DigestValue>hhQO7Pvmd7TiwYhOlaVuS4NhrLMug8V8Rjnhbg0LbU8=</ds:DigestValue>
+
+                                                </ds:Reference>
+
+                                </ds:SignedInfo>
+
+                <ds:SignatureValue>W2OyOnDXrlF6rBzSoPpdVA2W4CDqLWhtJFAW7fusuCWwgNmR/01HSOSw8mn1IHluC+2LRqtCsupG6Za0/5V3stNkrhqTHnpcM9u7P4dbSPLYPUyjINC9ldPjVF7rTmTnTwan2Omy4oEzSvmh++IOdNq5vh6KHQiRdrBRykOGCCqi9rtOyq6PkX4G71C5bKFI4Zs0ROoH5wrq2Ev56ECP4RfBfCJwCj6vakgaLmd1pNMy6+g7foDO08myWsVoc1zr6sMk3gva5nXEq/48SE5ROa3fdt9IWAeJGkbE/GQ66UJMqg3f4Ze2PtrsVQxguddu/bfMkGePJ2F8P+N4WEw//w==</ds:SignatureValue>
+
+                                <ds:KeyInfo>
+
+                                                <ds:X509Data>
+
+                                                <ds:X509Certificate>MIIC4DCCAcigAwIBAgIIHCjKJn2OzZowDQYJKoZIhvcNAQELBQAwDjEMMAoGA1UEAxMDZGhzMB4XDTE4MTAzMTA1MzIxMFoXDTI4MTAyOTA1MzIxMFowDjEMMAoGA1UEAxMDZGhzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyhu5MbtKGgQxqWgJMLjtGxeJPdL8CoCDYpiAfTvneq7n9CIckq8H4NrO0Hv6wthDiWrmSNMnS6z2WyxecgBI1VsaBXfc7hGmXlfYLIplWSypanilm2sWmQblrg16zvFm3QN8WZpa8GQ+yymrS6NiyW0QdEb/jw2v6WVYtf9vReq1X/ZYolz4nXT51RmFMGng6ylJl+JdlGBZ1UxB8c6/qWdZL2QwTWcPVjS13kNKeGrRciDUbIMqTtCWarRdl8WbZF8cO/mGelTwDPgJ2YJGvvkvJmw1cQc4ivF9tnZOoX6O/UBWbu4VBYwyxP3QS9ppDCpoQ3jV7QywH/lbsjd0tQIDAQABo0IwQDAdBgNVHQ4EFgQUz9yK44hLjLDaA1eBs2EdfQHiOakwHwYDVR0jBBgwFoAUz9yK44hLjLDaA1eBs2EdfQHiOakwDQYJKoZIhvcNAQELBQADggEBAFcaYE0WvIdGVSIFSikeUeLwzhqm89RZ8II2nFPN94Vc5nCEP1+mRWEIb7y7x1SsRQPi5kUYLZ071XQ8kZi8THAZIw33z326br4Z5yExAcLC8U1F5gvySN+kchSBVRLTwICvoe6GvDKCRfejVlxKyuZinNZblOJHqe0eIsunrhY0xhufl03dEjS9zVtnPHy36qDIzEHhBy/jDWsgDOzmJe67DWPdx2yde6gI+YzoTtz8dAVxcpqrxtuazDvpDMk/AgTg7iykVyYeCPAKvxeojMtgyfo4EvicIbVWTQB6O9dNUChV1H6djmLWs9o/S9U8ssI0pyqLyTSXBNi4ID2j6eE=</ds:X509Certificate>
+
+                                                </ds:X509Data>
+
+                                </ds:KeyInfo>
+
+                </ds:Signature>
+
+                <samlp:Status>
+
+                                <samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+
+                </samlp:Status>
+
+                <saml:Assertion ID="Assertion-uuideb123add-018f-1542-b0a6-88ce85c3b057" IssueInstant="2024-06-06T01:04:21Z" Version="2.0">
+
+                                <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">https://test.signon.servicesaustralia.gov.au/sso/sps/signonidp/saml20</saml:Issuer>
+
+                                <ds:Signature Id="uuideb123ade-018f-1209-a3fa-88ce85c3b057">
+
+                                                <ds:SignedInfo>
+
+                                                                <ds:CanonicalizationMethod Algorithm=http://www.w3.org/2001/10/xml-exc-c14n#/>
+
+                                                                <ds:SignatureMethod Algorithm=http://www.w3.org/2001/04/xmldsig-more#rsa-sha256/>
+
+                                                                <ds:Reference URI="#Assertion-uuideb134add-018f-1542-b0a6-88ce85c3b057">
+
+                                                                                <ds:Transforms>
+
+                                                                                                <ds:Transform Algorithm=http://www.w3.org/2000/09/xmldsig#enveloped-signature/>
+
+                                                                                                <ds:Transform Algorithm=http://www.w3.org/2001/10/xml-exc-c14n#>
+
+                                                                                                                <ec:InclusiveNamespaces xmlns:ec=http://www.w3.org/2001/10/xml-exc-c14n# PrefixList="saml xs xsi"/>
+
+                                                                                                </ds:Transform>
+
+                                                                                </ds:Transforms>
+
+                                                                                <ds:DigestMethod Algorithm=http://www.w3.org/2001/04/xmlenc#sha256/>
+
+                                                                                <ds:DigestValue>63lib0lzic6SXXDIcR74xbBzM3Vx8TTlzfNVlN/ys7w=</ds:DigestValue>
+
+                                                                </ds:Reference>
+
+                                                </ds:SignedInfo>
+
+                                <ds:SignatureValue>omXDPsbsG+lKsDmF71FDSF4u5x+OPrOwKaI6zM9By/lS6MIR/mKYtr04fqjBeygPrc1DLCXiIGYvtOjdzyAYki3mGeuGkMJP6b4RU63ZItHLMdUvd2ggRbTaTnD/Zls8eRGxUYsGQR2j25bjxm0Cs9JHJpb+8sYVK2WxBtTbjJ8mIap3PRxA7lNtXnIJIfH6/laGCmx8tSlz8XMUy9xvI12E0OLZZEwjWa9TZueaJP8bUqMMdDm+KpUmP9eIoWQ1FpVI/PH9bNHKJ9vl4kwAUIK87n9pOxPuFwRkmpiTJLTVOePnNAcFMv8SohCvEZbIIY4NafEQSwTITKne+g4uag==</ds:SignatureValue>
+
+                                                <ds:KeyInfo>
+
+                                                                <ds:X509Data>
+
+                                                                <ds:X509Certificate>MIIC4DCCAcigAwIBAgIIHCjKJn2OzZowDQYJKoZIhvcNAQELBQAwDjEMMAoGA1UEAxMDZGhzMB4XDTE4MTAzMTA1MzIxMFoXDTI4MTAyOTA1MzIxMFowDjEMMAoGA1UEAxMDZGhzMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyhu5MbtKGgQxqWgJMLjtGxeJPdL8CoCDYpiAfTvneq7n9CIckq8H4NrO0Hv6wthDiWrmSNMnS6z2WyxecgBI1VsaBXfc7hGmXlfYLIplWSypanilm2sWmQblrg16zvFm3QN8WZpa8GQ+yymrS6NiyW0QdEb/jw2v6WVYtf9vReq1X/ZYolz4nXT51RmFMGng6ylJl+JdlGBZ1UxB8c6/qWdZL2QwTWcPVjS13kNKeGrRciDUbIMqTtCWarRdl8WbZF8cO/mGelTwDPgJ2YJGvvkvJmw1cQc4ivF9tnZOoX6O/UBWbu4VBYwyxP3QS9ppDCpoQ3jV7QywH/lbsjd0tQIDAQABo0IwQDAdBgNVHQ4EFgQUz9yK44hLjLDaA1eBs2EdfQHiOakwHwYDVR0jBBgwFoAUz9yK44hLjLDaA1eBs2EdfQHiOakwDQYJKoZIhvcNAQELBQADggEBAFcaYE0WvIdGVSIFSikeUeLwzhqm89RZ8II2nFPN94Vc5nCEP1+mRWEIb7y7x1SsRQPi5kUYLZ071XQ8kZi8THAZIw33z326br4Z5yExAcLC8U1F5gvySN+kchSBVRLTwICvoe6GvDKCRfejVlxKyuZinNZblOJHqe0eIsunrhY0xhufl03dEjS9zVtnPHy36qDIzEHhBy/jDWsgDOzmJe67DWPdx2yde6gI+YzoTtz8dAVxcpqrxtuazDvpDMk/AgTg7iykVyYeCPAKvxeojMtgyfo4EvicIbVWTQB6O9dNUChV1H6djmLWs9o/S9U8ssI0pyqLyTSXBNi4ID2j6eE=</ds:X509Certificate>
+
+                                                                </ds:X509Data>
+
+                                                </ds:KeyInfo>
+
+                                </ds:Signature>
+
+                                <saml:Subject>
+
+                                                <saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">90794605008:Jason.Hawthorne@servicesaustralia.gov.au</saml:NameID>
+
+                                                <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+
+                                                                <saml:SubjectConfirmationData InResponseTo="_7205d599-57c9-4483-bf26-9e6eeffc60b5" NotOnOrAfter="2024-06-06T01:09:21Z" Recipient=https://rims.oars-dev.csda.gov.au/Saml.aspx/>
+
+                                                </saml:SubjectConfirmation>
+
+                                </saml:Subject>
+
+                                <saml:Conditions NotBefore="2024-06-06T00:59:21Z" NotOnOrAfter="2024-06-06T01:09:21Z">
+
+                                                <saml:AudienceRestriction>
+
+                                                                <saml:Audience>archer-oars-dev-pit</saml:Audience>
+
+                                                </saml:AudienceRestriction>
+
+                                </saml:Conditions>
+
+                                <saml:AuthnStatement AuthnInstant="2024-06-06T01:04:21Z" SessionIndex="uuidbe1212d2-3750-406d-8a3c-521bf76853cd" SessionNotOnOrAfter="2024-06-06T02:04:21Z">
+
+                                                <saml:AuthnContext>
+
+                                                <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</saml:AuthnContextClassRef>
+
+                                                </saml:AuthnContext>
+
+                                </saml:AuthnStatement>
+
+                                <saml:AttributeStatement>
+
+                                                <saml:Attribute Name="Groups" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">ioa-analyst</saml:AttributeValue>
+
+                                                                <saml:AttributeValue xsi:type="xs:string">ioa-change-manager</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                                <saml:Attribute Name="EmailAddress" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">Jason.Hawthorne@servicesaustralia.gov.au</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                                <saml:Attribute Name="UserName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">90794605008:Jason.Hawthorne@servicesaustralia.gov.au</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                                <saml:Attribute Name="Company" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">90794605008</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                                <saml:Attribute Name="UserDomain" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">LDAP</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                                <saml:Attribute Name="LastName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">Hawthorne</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                                <saml:Attribute Name="FirstName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+
+                                                                <saml:AttributeValue xsi:type="xs:string">Jason</saml:AttributeValue>
+
+                                                </saml:Attribute>
+
+                                </saml:AttributeStatement>
+
+                </saml:Assertion>
+
+</samlp:Response>
