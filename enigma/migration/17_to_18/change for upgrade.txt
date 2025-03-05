@@ -1,0 +1,123 @@
+SELECT *
+FROM ir_ui_view
+WHERE (arch_prev::text LIKE '%team_id%' or arch_db::text LIKE '%team_id%') and model='res.partner'
+ORDER BY id DESC
+LIMIT 100;
+
+-- Step 1: Create a new relational table for account
+CREATE TABLE account_account_res_company_rel (
+    account_account_id INTEGER NOT NULL REFERENCES account_account(id) ON DELETE CASCADE,
+    res_company_id INTEGER NOT NULL REFERENCES res_company(id) ON DELETE CASCADE,
+    PRIMARY KEY (account_account_id, res_company_id)
+);
+
+-- Step 2: Migrate existing company_id values
+INSERT INTO account_account_res_company_rel (account_account_id, res_company_id)
+SELECT id, company_id FROM account_account WHERE company_id IS NOT NULL;
+
+-- Step 3: Drop the old company_id column
+ALTER TABLE account_account DROP COLUMN company_id;
+
+-- Step 4: Add the new jsonb column 'code_store'
+ALTER TABLE account_account ADD COLUMN code_store jsonb;
+
+-- Step 5: Copy data from 'code' into 'code_store' in JSON format
+UPDATE account_account
+SET code_store = jsonb_build_object('old_code', code);
+
+-- Step 6: Drop the old 'code' column
+ALTER TABLE account_account DROP COLUMN code;
+
+
+
+-- Update every table schema dropping old_enigma_id
+DO $$ 
+DECLARE 
+    r RECORD;
+BEGIN
+    FOR r IN 
+        SELECT table_name 
+        FROM information_schema.columns 
+        WHERE column_name = 'old_enigma_id' 
+        AND table_schema = 'public'
+    LOOP
+        EXECUTE format('ALTER TABLE public.%I DROP COLUMN IF EXISTS old_enigma_id CASCADE;', r.table_name);
+    END LOOP;
+END $$;
+
+-- Update view_mode in ir_act_window_view
+UPDATE public.ir_act_window_view
+SET view_mode = 'list'
+WHERE view_mode = 'tree';
+
+-- Update type in ir_ui_view
+UPDATE public.ir_ui_view
+SET type = REPLACE(type::text, 'tree', 'list')
+WHERE type LIKE '%tree%';
+
+-- Update arch_db in ir_ui_view (replace '<tree' with '<list' and 'tree>' with 'list>' in one query)
+UPDATE public.ir_ui_view
+SET arch_db = REPLACE(REPLACE(arch_db::text, '<tree', '<list'), 'tree>', 'list>')::jsonb
+WHERE arch_db::text LIKE '%<tree%' OR arch_db::text LIKE '%tree>%';
+
+-- Update arch_prev in ir_ui_view (replace 'tree>' with 'list>')
+UPDATE public.ir_ui_view
+SET arch_prev = REPLACE(arch_prev::text, 'tree>', 'list>')
+WHERE arch_prev::text LIKE '%tree>%';
+
+
+SELECT * FROM public.ir_act_window
+	where res_model='account.unreconcile'
+ORDER BY id ASC 
+
+
+SELECT * FROM ir_model_data WHERE name in ('action_account_unreconcile','act_open_pwa_shortcuts_view_list','property_stock_account_input_categ_id','property_stock_account_output_categ_id');
+
+
+SELECT * FROM public.ir_ui_view
+WHERE name in ('project.kanban.inherit.project','stock.location.tree2.editable')
+
+SELECT * FROM public.res_groups
+WHERE name->>'en_US' IN ('Discount on lines', '');
+
+-- partner dependant issue
+SELECT *
+FROM ir_ui_view
+WHERE (arch_prev::text LIKE '%team_id%' or arch_db::text LIKE '%team_id%') and model='res.partner'
+ORDER BY id DESC
+LIMIT 100;
+
+-- sale dependednt issue
+
+SELECT * FROM public.ir_ui_view
+	where inherit_id in (SELECT id FROM public.ir_ui_view
+	where inherit_id in (SELECT id FROM public.ir_ui_view
+WHERE arch_prev::text LIKE '%detailed_type%' or  arch_db::text LIKE '%detailed_type%'))
+	
+SELECT * FROM public.ir_ui_view
+	where inherit_id in (SELECT id FROM public.ir_ui_view
+WHERE arch_prev::text LIKE '%detailed_type%' or  arch_db::text LIKE '%detailed_type%')
+
+SELECT * FROM public.ir_ui_view
+WHERE arch_prev::text LIKE '%detailed_type%' or  arch_db::text LIKE '%detailed_type%'
+
+-- deleteres_lang with name 'Serbian (Cyrillic) / српски'
+DELETE FROM res_lang WHERE name = 'Serbian (Cyrillic) / српски';
+
+
+SELECT * FROM public.ir_ui_view
+WHERE arch_fs::text in ('sale_stock/views/sale_order_views.xml','sale_timesheet/views/project_task_views.xml')
+
+
+-- act window issue resolve
+SELECT * FROM public.ir_act_window_view
+	where act_window_id=726
+ORDER BY id ASC 
+
+SELECT * FROM public.ir_act_window
+	where id=726
+ORDER BY id ASC 
+
+
+ALTER TABLE employee_category_rel 
+RENAME COLUMN emp_id TO employee_id;

@@ -95,7 +95,7 @@ def migrate_table(src_conn, dest_conn, table_name):
     cfg = load_table_json(table_name)
 
     # Extract relevant sections from JSON
-    normal_field_mapping = cfg.get("normal_field_mapping", {})
+    normal_field_mapping = cfg.get("normal_mapping", {})
     static_values = cfg.get("default_field_mapping", {})
     convert_m2o_to_m2m = cfg.get("convert_m2o_to_m2m", {})
     filter_by_company = cfg.get("filter_by_company", False)

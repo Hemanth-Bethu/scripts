@@ -75,11 +75,11 @@ def detect_many_to_many(schema, table):
     if len(fks) != 2:
         return False
 
-    # Common Odoo bridging pattern _rel
+    # Common bridging pattern
     if table.endswith("_rel"):
         return True
 
-    return True  # If you want to treat ANY table with exactly 2 FKs as bridging M2M
+    return True  # Treat any table with exactly 2 FKs as bridging M2M
 
 
 def get_schema_details(db_name):
@@ -87,11 +87,6 @@ def get_schema_details(db_name):
     Fetches table structures, indexes, foreign keys, views, sequences, triggers, and module mapping
     from a Postgres DB.
     Also fetches 'is_nullable' and 'column_default' for columns in DB_18 (only for 'db_name' param).
-    We store them in schema["columns_extras"][table][column] = {
-       "is_nullable": "YES"/"NO",
-       "column_default": <string or None>
-    }
-    So we can identify not-null columns + default expressions.
     """
     schema = {
         "tables": {},
@@ -141,7 +136,6 @@ def get_schema_details(db_name):
             WHERE ir_model_data.model = 'ir.model';
         """)
         for table_model, module in cur.fetchall():
-            # Odoo model "res.company" => table "res_company"
             schema["modules"][table_model.replace(".", "_")] = module
 
         # Indexes
@@ -380,7 +374,6 @@ def collect_relationship_info(schema):
       - many2one from the child table perspective
       - one2many from the parent table perspective
       - many2many bridging if a table has exactly two FKs (and is recognized as bridging)
-
     Returns a dict:
       {
          "many2one": [ (child_table, child_col, parent_table, parent_col), ... ],
@@ -406,7 +399,6 @@ def collect_relationship_info(schema):
         fk_constraints = list(fks.items())  # list of (constraint_name, definition)
         if len(fk_constraints) != 2:
             continue
-        # Usually 2 references
         (c1, d1), (c2, d2) = fk_constraints[0], fk_constraints[1]
         ref_table1, _ = parse_fk_reference(d1)
         ref_table2, _ = parse_fk_reference(d2)
@@ -414,7 +406,6 @@ def collect_relationship_info(schema):
             rel_info["many2many"].append((bt, ref_table1, ref_table2))
 
     # Now gather normal many2one from child → parent
-    # We'll still do it for bridging tables, but we'll label them many2many separately
     for t in schema["foreign_keys"]:
         for constraint_name, definition in schema["foreign_keys"][t].items():
             ref_table, ref_col = parse_fk_reference(definition)
@@ -426,11 +417,7 @@ def collect_relationship_info(schema):
             rel_info["many2one"].append((t, local_cols, ref_table, [ref_col]))
 
             # (B) parent has one2many from child
-            # (We link on the child table + child col. We store that so the user can see the inverse.)
-            # We do NOT do this if the table is bridging and recognized as many2many
-            # but if you want to see that as well, you can keep it anyway
-            if t not in bridging_tables:  # if bridging, we skip or you can comment this check out
-                # We can store the entire set of local cols for clarity
+            if t not in bridging_tables:
                 rel_info["one2many"].append((ref_table, t, local_cols))
 
     return rel_info
@@ -455,8 +442,7 @@ def compare_schemas_with_relationships(schema_17, schema_18):
 
     updated_foreign_keys = []
 
-    # We want to reflect changes that appear in 'schema_diffs["foreign_keys"]'
-    # and label them with the correct relationship type
+    # Reflect changes in foreign keys with relationship type labels
     for table, fks_dict in schema_diffs["foreign_keys"].items():
         for fk_constraint_name, status in fks_dict.items():
             definition_18 = schema_18["foreign_keys"].get(table, {}).get(fk_constraint_name)
@@ -464,11 +450,9 @@ def compare_schemas_with_relationships(schema_17, schema_18):
             if status == "Removed":
                 fk_def = definition_17
             else:
-                # 'Added' or 'Modified': parse the new
                 fk_def = definition_18 if definition_18 else definition_17
 
             ref_table, ref_col = parse_fk_reference(fk_def) if fk_def else (None, None)
-            # If bridging, we say many2many. Otherwise many2one from the child's perspective
             if detect_many_to_many(schema_18, table) or detect_many_to_many(schema_17, table):
                 rel_type = "Many-to-Many"
             else:
@@ -499,15 +483,15 @@ def compare_schemas_with_relationships(schema_17, schema_18):
 
 
 def save_diff_to_excel_with_relationships(
-    schema_diffs,
-    summary,
-    added_tables,
-    removed_tables,
-    tables_with_diff,
-    unchanged_tables,
-    field_level_changes,
-    updated_foreign_keys,
-    schema_18
+        schema_diffs,
+        summary,
+        added_tables,
+        removed_tables,
+        tables_with_diff,
+        unchanged_tables,
+        field_level_changes,
+        updated_foreign_keys,
+        schema_18
 ):
     """
     Saves schema comparison results to an Excel file, including:
@@ -515,15 +499,13 @@ def save_diff_to_excel_with_relationships(
       - Added/Removed/Modified Tables
       - Combined "Schema Changes" (columns + foreign keys)
       - Indexes, Views, Sequences, Triggers
-      - ALSO saves a separate 'Relationships' sheet
-        that enumerates many2one, one2many, many2many from the final (DB_18) perspective.
+      - A separate 'Relationships' sheet for many2one, one2many, many2many (from DB_18 perspective).
     """
     os.makedirs(os.path.dirname(DIFF_EXCEL_FILE), exist_ok=True)
 
-    # Collect the final (DB_18) relationship info for a separate sheet
     full_relationships = collect_relationship_info(schema_18)
 
-    # Flatten them for Excel
+    # Flatten relationships for Excel
     m2one_rows = []
     for (child_table, child_cols, parent_table, parent_cols) in full_relationships["many2one"]:
         m2one_rows.append({
@@ -557,23 +539,17 @@ def save_diff_to_excel_with_relationships(
         df_summary = pd.DataFrame(summary)
         df_summary.to_excel(writer, sheet_name="Summary", index=False)
 
-        # 2) Added/Removed/Modified
+        # 2) Added/Removed/Modified Tables
         if added_tables:
-            df_added = pd.DataFrame({"Added Tables": added_tables})
-            df_added.to_excel(writer, sheet_name="Added Tables", index=False)
-
+            pd.DataFrame({"Added Tables": added_tables}).to_excel(writer, sheet_name="Added Tables", index=False)
         if removed_tables:
-            df_removed = pd.DataFrame({"Removed Tables": removed_tables})
-            df_removed.to_excel(writer, sheet_name="Removed Tables", index=False)
-
+            pd.DataFrame({"Removed Tables": removed_tables}).to_excel(writer, sheet_name="Removed Tables", index=False)
         if tables_with_diff:
-            df_tbl_mod = pd.DataFrame({"Tables Modified": tables_with_diff})
-            df_tbl_mod.to_excel(writer, sheet_name="Tables Modified", index=False)
+            pd.DataFrame({"Tables Modified": tables_with_diff}).to_excel(writer, sheet_name="Tables Modified",
+                                                                         index=False)
 
         # 3) Combined "Schema Changes"
         schema_changes = []
-
-        # Field-level changes
         for change in field_level_changes:
             schema_changes.append({
                 "Table Name": change["Table Name"],
@@ -582,8 +558,6 @@ def save_diff_to_excel_with_relationships(
                 "Details": change["Field Details"],
                 "Status": change["Status"]
             })
-
-        # Foreign key changes
         for fk_entry in updated_foreign_keys:
             schema_changes.append({
                 "Table Name": fk_entry["Table Name"],
@@ -592,10 +566,8 @@ def save_diff_to_excel_with_relationships(
                 "Details": fk_entry["Details"],
                 "Status": fk_entry["Status"]
             })
-
         if schema_changes:
-            df_schema_changes = pd.DataFrame(schema_changes)
-            df_schema_changes.to_excel(writer, sheet_name="Schema Changes", index=False)
+            pd.DataFrame(schema_changes).to_excel(writer, sheet_name="Schema Changes", index=False)
 
         # 4) Index Differences
         index_changes = []
@@ -607,20 +579,17 @@ def save_diff_to_excel_with_relationships(
                     "Definition": definition
                 })
         if index_changes:
-            df_indexes = pd.DataFrame(index_changes)
-            df_indexes.to_excel(writer, sheet_name="Indexes", index=False)
+            pd.DataFrame(index_changes).to_excel(writer, sheet_name="Indexes", index=False)
 
         # 5) View Differences
         if schema_diffs["views"]:
-            df_views = pd.DataFrame(list(schema_diffs["views"].items()),
-                                    columns=["View Name", "Definition"])
-            df_views.to_excel(writer, sheet_name="Views", index=False)
+            pd.DataFrame(list(schema_diffs["views"].items()),
+                         columns=["View Name", "Definition"]).to_excel(writer, sheet_name="Views", index=False)
 
         # 6) Sequence Differences
         if schema_diffs["sequences"]:
-            df_sequences = pd.DataFrame(list(schema_diffs["sequences"].items()),
-                                        columns=["Sequence Name", "Type"])
-            df_sequences.to_excel(writer, sheet_name="Sequences", index=False)
+            pd.DataFrame(list(schema_diffs["sequences"].items()),
+                         columns=["Sequence Name", "Type"]).to_excel(writer, sheet_name="Sequences", index=False)
 
         # 7) Trigger Differences
         trigger_changes = []
@@ -632,58 +601,44 @@ def save_diff_to_excel_with_relationships(
                     "Action": action
                 })
         if trigger_changes:
-            df_triggers = pd.DataFrame(trigger_changes)
-            df_triggers.to_excel(writer, sheet_name="Triggers", index=False)
+            pd.DataFrame(trigger_changes).to_excel(writer, sheet_name="Triggers", index=False)
 
-        # 8) Relationships: many2one, one2many, many2many
-        #    from the final DB_18 schema perspective
-        #    We'll put each in its own area of the "Relationships" sheet
-        #    or as separate sheets if you prefer
-        if m2one_rows or o2m_rows or m2m_rows:
-            # If you want them on a single sheet, we’ll do something like below
-            relationship_entries = []
-
-            # Many-to-One relationships
-            for row in m2one_rows:
-                relationship_entries.append({
-                    "Relationship Type": "Many-to-One",
-                    "Table A": row["Child Table"],
-                    "Column A": row["Child Cols"],
-                    "Table B": row["Parent Table"],
-                    "Column B": row["Parent Cols"]
-                })
-
-            # One-to-Many relationships
-            for row in o2m_rows:
-                relationship_entries.append({
-                    "Relationship Type": "One-to-Many",
-                    "Table A": row["Parent Table"],
-                    "Column A": "N/A",
-                    "Table B": row["Child Table"],
-                    "Column B": row["Child Cols"]
-                })
-
-            # Many-to-Many relationships
-            for row in m2m_rows:
-                relationship_entries.append({
-                    "Relationship Type": "Many-to-Many",
-                    "Table A": row["Table A"],
-                    "Column A": "N/A",
-                    "Table B": row["Table B"],
-                    "Column B": "N/A",
-                    "Bridge Table": row["Bridge Table"]
-                })
-
-            # Convert to DataFrame and write once
-            df_relationships = pd.DataFrame(relationship_entries)
-            df_relationships.to_excel(writer, sheet_name="Relationships", index=False)
+        # 8) Relationships Sheet
+        relationship_entries = []
+        for row in m2one_rows:
+            relationship_entries.append({
+                "Relationship Type": "Many-to-One",
+                "Table A": row["Child Table"],
+                "Column A": row["Child Cols"],
+                "Table B": row["Parent Table"],
+                "Column B": row["Parent Cols"]
+            })
+        for row in o2m_rows:
+            relationship_entries.append({
+                "Relationship Type": "One-to-Many",
+                "Table A": row["Parent Table"],
+                "Column A": "N/A",
+                "Table B": row["Child Table"],
+                "Column B": row["Child Cols"]
+            })
+        for row in m2m_rows:
+            relationship_entries.append({
+                "Relationship Type": "Many-to-Many",
+                "Table A": row["Table A"],
+                "Column A": "N/A",
+                "Table B": row["Table B"],
+                "Column B": "N/A",
+                "Bridge Table": row["Bridge Table"]
+            })
+        if relationship_entries:
+            pd.DataFrame(relationship_entries).to_excel(writer, sheet_name="Relationships", index=False)
 
         print(f"✅ Schema differences + relationships saved to: {DIFF_EXCEL_FILE}")
 
 
 def get_ir_model_data_mapping(db_name):
     """
-    Fetch table-to-module mapping using ir_model_data in Odoo.
+    Fetch table-to-module mapping using ir_model_data.
     """
     mapping = {}
     try:
@@ -717,21 +672,15 @@ def gather_relationships(schema, table):
     Also identifies if the table is a bridging table (many2many).
     """
     results = []
-
-    # Detect if this table itself is a many-to-many bridge
     is_m2m_bridge = detect_many_to_many(schema, table)
 
-    # If it's a many2many bridge, store it as a many2many relation
     if is_m2m_bridge:
         fks = schema["foreign_keys"][table]
-        fk_constraints = list(fks.items())  # list of (constraint_name, definition)
-
+        fk_constraints = list(fks.items())
         if len(fk_constraints) == 2:
-            # Extract both referenced tables
             (c1, d1), (c2, d2) = fk_constraints
             ref_table1, _ = parse_fk_reference(d1)
             ref_table2, _ = parse_fk_reference(d2)
-
             if ref_table1 and ref_table2:
                 results.append({
                     "relationship_type": "many2many",
@@ -739,15 +688,11 @@ def gather_relationships(schema, table):
                     "table_a": ref_table1,
                     "table_b": ref_table2
                 })
-
-    # If not a many2many bridge, gather many2one relations
     if not is_m2m_bridge and table in schema["foreign_keys"]:
         for constraint_name, definition in schema["foreign_keys"][table].items():
             ref_table, ref_col = parse_fk_reference(definition)
             local_cols = parse_fk_local_columns(definition)
-
             if ref_table:
-                # Many2One Relation
                 results.append({
                     "relationship_type": "many2one",
                     "constraint_name": constraint_name,
@@ -755,25 +700,30 @@ def gather_relationships(schema, table):
                     "referenced_table": ref_table,
                     "referenced_columns": [ref_col] if ref_col else []
                 })
-
-                # One2Many Relation (Inverse)
                 results.append({
                     "relationship_type": "one2many",
                     "parent_table": ref_table,
                     "child_table": table,
                     "child_columns": local_cols
                 })
-
     return results
+
 
 def create_table_mappings_json(schema_17, schema_18, tables_to_migrate, output_dir):
     """
-    Generates JSON mappings for each table, separating normal and relational field mappings.
+    Generates JSON mappings for each table, separating:
+      - normal_mapping for non-relational fields
+      - many2one_mapping for integer-typed relation fields
+      - one2many_mapping for inverse relations
+      - many2many_mapping for bridging tables
     """
     json_path = os.path.join(output_dir, "table_mapping")
     os.makedirs(json_path, exist_ok=True)
     columns_extras_18 = schema_18.get("columns_extras", {})
     module_mapping = get_ir_model_data_mapping(DB_18)
+
+    # Define integer types for checking many2one fields
+    integer_types = {"integer", "bigint", "smallint"}
 
     for table in tables_to_migrate:
         if table not in schema_17["tables"] or table not in schema_18["tables"]:
@@ -809,38 +759,51 @@ def create_table_mappings_json(schema_17, schema_18, tables_to_migrate, output_d
 
         removed_fields = {col: cols_17[col] for col in removed_cols}
 
-        normal_field_mapping = {}
-        relational_field_mapping = {}
+        # Initialize separate mapping dictionaries
+        normal_mapping = {}
+        many2one_mapping = {}
+        one2many_mapping = {}
+        many2many_mapping = {}
 
+        # Start by mapping unchanged and changed fields as normal fields
         for col in unchanged_fields:
-            normal_field_mapping[col] = col
+            normal_mapping[col] = col
         for col in changed_fields:
-            normal_field_mapping[col] = col
+            normal_mapping[col] = col
 
         # Gather relationships from DB_18 perspective
         relationships = gather_relationships(schema_18, table)
         for rel in relationships:
             if rel["relationship_type"] == "many2many":
-                relational_field_mapping[f"{rel['table_a']}_to_{rel['table_b']}"] = {
+                key = f"{rel['table_a']}_to_{rel['table_b']}"
+                many2many_mapping[key] = {
                     "relationship_type": "many2many",
                     "bridge_table": rel["bridge_table"],
                     "table_a": rel["table_a"],
                     "table_b": rel["table_b"]
                 }
             elif rel["relationship_type"] == "one2many":
-                relational_field_mapping[f"{rel['parent_table']}_to_{rel['child_table']}"] = {
+                key = f"{rel['parent_table']}_to_{rel['child_table']}"
+                one2many_mapping[key] = {
                     "relationship_type": "one2many",
                     "parent_table": rel["parent_table"],
                     "child_table": rel["child_table"],
                     "child_columns": rel["child_columns"]
                 }
-            else:
+            elif rel["relationship_type"] == "many2one":
                 for local_col in rel["local_columns"]:
-                    relational_field_mapping[local_col] = {
-                        "relationship_type": rel["relationship_type"],
-                        "referenced_table": rel["referenced_table"],
-                        "referenced_column": rel["referenced_columns"]
-                    }
+                    col_type = cols_18.get(local_col, "").lower()
+                    if col_type in integer_types:
+                        many2one_mapping[local_col] = {
+                            "relationship_type": "many2one",
+                            "referenced_table": rel["referenced_table"],
+                            "referenced_column": rel["referenced_columns"]
+                        }
+                        # Remove from normal mapping if present
+                        if local_col in normal_mapping:
+                            del normal_mapping[local_col]
+                    else:
+                        normal_mapping[local_col] = local_col
 
         mapping_data = {
             "table": table,
@@ -849,8 +812,10 @@ def create_table_mappings_json(schema_17, schema_18, tables_to_migrate, output_d
             "changed_fields": changed_fields,
             "added_fields": added_fields,
             "removed_fields": removed_fields,
-            "normal_field_mapping": normal_field_mapping,
-            "relational_field_mapping": relational_field_mapping,
+            "normal_mapping": normal_mapping,
+            "many2one_mapping": many2one_mapping,
+            "one2many_mapping": one2many_mapping,
+            "many2many_mapping": many2many_mapping,
             "relationships": relationships,
             "default_field_mapping": default_field_mapping
         }
@@ -860,6 +825,7 @@ def create_table_mappings_json(schema_17, schema_18, tables_to_migrate, output_d
             json.dump(mapping_data, f, indent=4)
 
         print(f"✔ Created mapping JSON for table: {table}")
+
 
 # ------------- MAIN -------------
 if __name__ == "__main__":
