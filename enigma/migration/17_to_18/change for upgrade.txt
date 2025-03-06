@@ -66,6 +66,17 @@ SET arch_prev = REPLACE(arch_prev::text, 'tree>', 'list>')
 WHERE arch_prev::text LIKE '%tree>%';
 
 
+SELECT id, name, res_model, view_mode
+FROM ir_act_window
+WHERE view_mode LIKE '%tree%';
+
+
+UPDATE ir_act_window
+SET view_mode = REPLACE(view_mode, 'tree', 'list')
+WHERE view_mode LIKE '%tree%';
+
+
+
 SELECT * FROM public.ir_act_window
 	where res_model='account.unreconcile'
 ORDER BY id ASC 
