@@ -28,6 +28,13 @@ SET code_store = jsonb_build_object('old_code', code);
 -- Step 6: Drop the old 'code' column
 ALTER TABLE account_account DROP COLUMN code;
 
+-- important  error resolve for old_code to company_id
+UPDATE account_account AS aa
+SET code_store = jsonb_build_object(rel.res_company_id::TEXT, code_store->>'old_code')
+FROM account_account_res_company_rel AS rel
+WHERE aa.id = rel.account_account_id
+AND code_store ? 'old_code';
+
 
 
 -- Update every table schema dropping old_enigma_id
