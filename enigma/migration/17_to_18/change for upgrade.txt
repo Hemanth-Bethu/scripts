@@ -4,6 +4,12 @@ WHERE (arch_prev::text LIKE '%team_id%' or arch_db::text LIKE '%team_id%') and m
 ORDER BY id DESC
 LIMIT 100;
 
+SELECT key, value
+FROM ir_config_parameter
+WHERE key IN ('aws_access_key_id', 'aws_secret_access_key', 'aws_region');
+
+
+
 -- Step 1: Create a new relational table for account
 CREATE TABLE account_account_res_company_rel (
     account_account_id INTEGER NOT NULL REFERENCES account_account(id) ON DELETE CASCADE,
@@ -139,3 +145,7 @@ ORDER BY id ASC
 
 ALTER TABLE employee_category_rel 
 RENAME COLUMN emp_id TO employee_id;
+
+
+
+for account chnages fond # Hemanth account defaults  in "addons/account/models/chart_template.py" comment template_data.pop(prop) temperary
