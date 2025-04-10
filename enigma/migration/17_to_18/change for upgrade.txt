@@ -112,7 +112,7 @@ ORDER BY id DESC
 LIMIT 100;
 
 -- sale dependednt issue
-
+repeat for ('detailed_type','ubl_cii_format')
 SELECT * FROM public.ir_ui_view
 	where inherit_id in (SELECT id FROM public.ir_ui_view
 	where inherit_id in (SELECT id FROM public.ir_ui_view
