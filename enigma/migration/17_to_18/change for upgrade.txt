@@ -74,8 +74,8 @@ SET arch_db = REPLACE(REPLACE(arch_db::text, '<tree', '<list'), 'tree>', 'list>'
 WHERE arch_db::text LIKE '%<tree%' OR arch_db::text LIKE '%tree>%';
 
 UPDATE public.ir_ui_view
-SET arch_db = REPLACE(arch_db::text, 'tree', 'list')::jsonb
-WHERE arch_db::text LIKE '%tree%' ;
+SET arch_db = REPLACE(arch_db::text, '/tree', '/list')::jsonb
+WHERE arch_db::text LIKE '%/tree%' ;
 
 -- Update arch_prev in ir_ui_view (replace 'tree>' with 'list>')
 UPDATE public.ir_ui_view
@@ -83,8 +83,8 @@ SET arch_prev = REPLACE(arch_prev::text, 'tree>', 'list>')
 WHERE arch_prev::text LIKE '%tree>%';
 
 UPDATE public.ir_ui_view
-SET arch_prev = REPLACE(arch_prev::text, 'tree', 'list')
-WHERE arch_prev::text LIKE '%tree%';
+SET arch_prev = REPLACE(arch_prev::text, '/tree', '/list')
+WHERE arch_prev::text LIKE '%/tree%';
 
 
 SELECT id, name, res_model, view_mode
