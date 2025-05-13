@@ -7,12 +7,14 @@ try:
     owner = record.invoice_owner
     if not owner:
         log("No Invoice Owner – e-mail skipped", record=record)
+        record.message_post(body="No Invoice Owner – e-mail skipped.")
 
     else:
         emp = owner.employee_id
         mgr = emp.parent_id if emp else False
         if not mgr:
             log(f"Owner has no manager – e-mail skipped: {owner}, {owner.employee_id}", record=record)
+            record.message_post(body=f"Owner has no manager – e-mail skipped: {owner.name}, {owner.employee_id}")
 
         else:
             # 1️⃣  Preferred address: HR Employee’s work_email
@@ -29,6 +31,7 @@ try:
 
             if not email_to:
                 log("Manager has no work_email or partner e-mail – skipped", record=record)
+                record.message_post(body="Manager has no work_email or partner e-mail – skipped.")
             else:
                 # Build the CTA button
                 deeplink = record.get_view_record_redirect_url()
@@ -82,9 +85,13 @@ try:
                 })
                 mail.send()
                 log(f"E-mail {mail.id} queued to {email_to}", record=record)
+                record.message_post(body=f"E-mail queued to {email_to} for Invoice {record.display_name}")
+
 except Exception as e:
     log(f"Exception occurred in Sending email {e}", record=record)
+    record.message_post(body=f"Exception occurred while sending e-mail: {str(e)}")
     raise e
+
 ```
 
 
