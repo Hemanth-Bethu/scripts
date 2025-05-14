@@ -1,0 +1,21 @@
+| Email                                                         | Password          | App Password     |
+| ------------------------------------------------------------- | ----------------- | ---------------- |
+| [Austrade.uat@xaana.ai](mailto:Austrade.uat@xaana.ai)         | Tuk42809          | rdxktqhycqdglgdl |
+| [Austrade.prod@xaana.ai](mailto:Austrade.prod@xaana.ai)       | Zuk39974          | txxcjcdfqbsxshwc |
+| [mdba.prod@xaana.ai](mailto:mdba.prod@xaana.ai)               | Rof67316          | psfwjlqgczdvmlmx |
+| [mdba.uat@xaana.ai](mailto:mdba.uat@xaana.ai)                 | Kov79102          | ynxtchfzqdbygtsx |
+| [NHMRC.uat@xaana.ai](mailto:NHMRC.uat@xaana.ai)               | Fub88692          | wcntmyylnxnskypt |
+| [NCA.uat@xaana.ai](mailto:NCA.uat@xaana.ai)                   | Maz79726          | mdxzckyjyhhfmkmc |
+| [NCA.prod@xaana.ai](mailto:NCA.prod@xaana.ai)                 | Qoz39009          | jplmhszrdgqkgcmc |
+| [FWC.uat@xaana.ai](mailto:FWC.uat@xaana.ai)                   | Muq74671          | xcgjmrgcszrfwwjj |
+| [DOH.uat@xaana.ai](mailto:DOH.uat@xaana.ai)                   | Nam21435          | dnccqlvvbcdjydss |
+| [DOHAC.ocr@xaana.ai](mailto:DOHAC.ocr@xaana.ai)               | Xaana\@2023!!!!!! | xqjzgncncbhzykdx |
+| [noreply.ohana@xaana.ai](mailto:noreply.ohana@xaana.ai)       | Xuc29217          | nhdywbspbczmyqky |
+| [tsc.ocr@xaana.ai](mailto:tsc.ocr@xaana.ai)                   | F)880447976175o   | vmtvrxtvswmstjwl |
+| [tsc.uat.ocr@xaana.ai](mailto:tsc.uat.ocr@xaana.ai)           | M&268930866351u   | dptrdbgfpkmnmffs |
+| [grdc.uat@xaana.ai](mailto:grdc.uat@xaana.ai)                 | Xaana\@2024!!!!!! | fvnmthhwsfqjysmp |
+| [grdc.prod@xaana.ai](mailto:grdc.prod@xaana.ai)               | Xaana\@2024!!!!!! | dhjvgvmggdwkvrcg |
+| [FAS.UAT@xaana.ai](mailto:FAS.UAT@xaana.ai)                   | V^105873579934o   | cqzdfzvwhxrjlygc |
+| [enigma\_ocr\_uat@xaana.ai](mailto:enigma_ocr_uat@xaana.ai)   | Xud34697          | qhllnybsxfvzxvvc |
+| [ocr.test2.enigma@xaana.ai](mailto:ocr.test2.enigma@xaana.ai) | HIOCR01!1         | cvzlgqjlzwblwzht |
+| [Enigma@xaana.ai](mailto:Enigma@xaana.ai)                     | Xaana\@2024\$     | twwmhxjjbsrkrzpv |
