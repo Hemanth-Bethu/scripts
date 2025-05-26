@@ -1,0 +1,143 @@
+WITH base AS (
+    SELECT
+        am.id,
+        am.ref AS invoice_reference,
+        am.invoice_date,
+        am.invoice_type_e_invoice,
+        am.payment_state,
+        am.amount_total,
+        rc.name AS currency,
+        rp.name AS vendor_name,
+        rp.vat AS vendor_abn,
+        am.erp_state,
+        am.external_payment_date,
+        am.create_date AS processed_on,
+        v.create_date AS enigma_received_on,
+        po.name AS po_number,
+
+        -- Grace period: 5 for e-invoice, 20 for ocr
+        CASE WHEN am.invoice_type_e_invoice = 'e-invoice' THEN 5 ELSE 20 END AS grace_days,
+
+        -- Due date based on voucher.create_date
+        CASE
+            WHEN am.invoice_type_e_invoice = 'e-invoice' THEN v.create_date + INTERVAL '5 days'
+            WHEN am.invoice_type_e_invoice = 'ocr' THEN v.create_date + INTERVAL '20 days'
+            ELSE NULL
+        END AS payment_due_date,
+
+        -- Penalty end date logic
+        CASE
+            WHEN am.external_payment_date IS NOT NULL THEN am.external_payment_date
+            ELSE CURRENT_DATE
+        END AS penalty_end_date
+
+    FROM account_move am
+    LEFT JOIN invoicescan_voucher v ON v.id = am.voucher_id
+    LEFT JOIN purchase_order po ON po.id = v.order_number_id
+    LEFT JOIN res_partner rp ON rp.id = am.partner_id
+    LEFT JOIN res_currency rc ON rc.id = am.currency_id
+
+    WHERE am.company_id = $enigma_company_id
+      AND am.state = 'posted'
+      AND am.payment_state <> 'paid'
+      AND am.invoice_type_e_invoice IN ('e-invoice', 'ocr')
+      AND v.create_date IS NOT NULL
+      AND am.invoice_date >= $__timeFrom()::date
+      AND am.invoice_date < $__timeTo()::date
+      AND rp.name IN ($vendor)
+      AND (
+          ('Invoice' IN ($document_type_filter) AND am.move_type IN ('in_invoice', 'out_invoice')) OR
+          ('CreditNote' IN ($document_type_filter) AND am.move_type IN ('in_refund', 'out_refund'))
+      )
+      -- ✅ Optional PO filtering: include invoices without PO if no filter or match
+      AND (
+           po.name IN ($po) OR po.id IS NULL
+      )
+),
+
+dates AS (
+    SELECT
+        b.id AS invoice_id,
+        b.invoice_reference,
+        b.amount_total,
+        b.currency,
+        b.vendor_name,
+        b.vendor_abn,
+        b.invoice_type_e_invoice,
+        b.invoice_date,
+        b.enigma_received_on,
+        b.payment_due_date,
+        b.external_payment_date,
+        b.penalty_end_date,
+        b.erp_state,
+        b.processed_on,
+        b.po_number,
+        g.start_date,
+        g.end_date,
+        g.daily_rate,
+        gs.penalty_day
+    FROM base b
+    JOIN LATERAL generate_series(
+        b.payment_due_date::date + INTERVAL '1 day',
+        b.penalty_end_date::date,
+        INTERVAL '1 day'
+    ) AS gs(penalty_day) ON TRUE
+    JOIN ato_gic_rate g
+      ON gs.penalty_day BETWEEN g.start_date AND g.end_date
+),
+
+penalty_calc AS (
+    SELECT
+        invoice_id,
+        invoice_reference,
+        vendor_name,
+        vendor_abn,
+        invoice_type_e_invoice,
+        invoice_date,
+        enigma_received_on,
+        payment_due_date,
+        external_payment_date,
+        currency,
+        amount_total,
+        erp_state,
+        processed_on,
+        po_number,
+        COUNT(*) AS delay_days,
+        ROUND(SUM((amount_total * daily_rate)::numeric), 2) AS estimated_penalty_aud
+    FROM dates
+    GROUP BY
+        invoice_id,
+        invoice_reference,
+        vendor_name,
+        vendor_abn,
+        invoice_type_e_invoice,
+        invoice_date,
+        enigma_received_on,
+        payment_due_date,
+        external_payment_date,
+        currency,
+        amount_total,
+        erp_state,
+        processed_on,
+        po_number
+)
+
+SELECT
+    invoice_reference                    AS "Invoice Reference",
+    vendor_name                          AS "Vendor Name",
+    vendor_abn                           AS "Vendor ABN",
+    invoice_type_e_invoice               AS "Invoice Source",
+    po_number                            AS "PO Number",
+    invoice_date                         AS "Invoice Date",
+    enigma_received_on                   AS "Received Date",
+    payment_due_date                     AS "Effective Due Date",
+    external_payment_date                AS "Paid Date",
+    delay_days                           AS "Delay (days)",
+    estimated_penalty_aud                AS "Estimated Penalty Amount (AUD)",
+    amount_total                         AS "Total Amount",
+    currency                             AS "Currency",
+    'unpaid'                             AS "Payment State",
+    erp_state                            AS "ERP Sync Status",
+    processed_on                         AS "Processed On"
+FROM penalty_calc
+ORDER BY payment_due_date DESC;
