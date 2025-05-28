@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wd="urn:com.workday/bsvc">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <wd:Get_Suppliers_Request wd:version="v44.0">
+      <wd:Request_Criteria>
+        <wd:Updated_From_Date>${from_date}</wd:Updated_From_Date>
+        <wd:Updated_To_Date>${to_date}</wd:Updated_To_Date>
+      </wd:Request_Criteria>
+      <wd:Response_Filter>
+        <wd:Page>${page_number}</wd:Page>
+        <wd:Count>${limit}</wd:Count>
+      </wd:Response_Filter>
+    </wd:Get_Suppliers_Request>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

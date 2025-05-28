@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+              xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <env:Body>
+        <wd:Submit_Supplier_Invoice_Request xmlns:wd="urn:com.workday/bsvc"
+		                                    wd:Add_Only="true"
+		                                    wd:version="v44.1">
+            <wd:Business_Process_Parameters>
+                <wd:Auto_Complete>1</wd:Auto_Complete>
+                <wd:Comment_Data>
+                    <!--Optional:-->
+                    <wd:Comment>Test BP Comment</wd:Comment>
+                </wd:Comment_Data>
+            </wd:Business_Process_Parameters>
+            <wd:Supplier_Invoice_Data>
+                <wd:Submit>1</wd:Submit>
+                <wd:Suppliers_Invoice_Number>FS_SI_005</wd:Suppliers_Invoice_Number>
+                <wd:Supplier_Invoice_ID>FS_SI_005</wd:Supplier_Invoice_ID>
+                <wd:Locked_in_Workday>0</wd:Locked_in_Workday>
+                <wd:Invoice_Number>FS_SI_005</wd:Invoice_Number>
+                <wd:Company_Reference>
+                    <wd:ID wd:type="Company_Reference_ID">CO_001</wd:ID>
+                </wd:Company_Reference>
+                <!--You have a CHOICE of the next 2 items at this level-->
+                <wd:Supplier_Reference>
+
+                    <wd:ID wd:type="Supplier_ID">S-10000038</wd:ID>
+                </wd:Supplier_Reference>
+                 <wd:Invoice_Date>2025-05-10</wd:Invoice_Date>
+
+                <wd:Currency_Reference>
+                    <wd:ID wd:type="Currency_ID">AUD</wd:ID>
+                </wd:Currency_Reference>
+
+                <wd:Invoice_Received_Date>2025-05-10</wd:Invoice_Received_Date>
+
+                <wd:Payment_Terms_Reference >
+                    <!--Zero or more repetitions:-->
+                    <wd:ID wd:type="Payment_Terms_ID">Net_30</wd:ID>
+                </wd:Payment_Terms_Reference >
+
+
+
+<wd:Attachment_Data wd:Filename="Purchase_Order_P00003.pdf" wd:Encoding="UTF-8" wd:Content_Type="application/pdf" wd:Compressed="0">
+<wd:File_Content>JVBERi0xLjQKMSAwIG9iago8PAovVGl0bGUgKP7/KQovQ3JlYXRvciAo/</wd:File_Content>
+</wd:Attachment_Data>
+
+
+
+
+                <wd:Tax_Code_Data>
+                    <wd:Tax_Applicability_Reference>
+                        <!--Zero or more repetitions:-->
+                        <wd:ID wd:type="Tax_Applicability_ID">Purchase_GST</wd:ID>
+                    </wd:Tax_Applicability_Reference>
+                    <wd:Tax_Code_Reference>
+                        <!--Zero or more repetitions-->
+                        <wd:ID wd:type="Tax_Code_ID">AUS_Standard</wd:ID>
+                    </wd:Tax_Code_Reference>
+                    <!--Optional:-->
+                    <!--wd:Tax_Amount>6.5</wd:Tax_Amount-->
+                    <!--1 or more repetitions:-->
+                    <wd:Tax_Rate_Data>
+                        <!--Optional:-->
+                        <wd:Tax_Rate_Reference>
+                            <!--Zero or more repetitions:-->
+                            <wd:ID wd:type="Tax_Rate_ID">AUS_Standard</wd:ID>
+                        </wd:Tax_Rate_Reference>
+                        <!--Optional:-->
+                        <wd:Tax_Amount>0.1</wd:Tax_Amount>
+                        <!--Optional:-->
+                        <wd:Tax_Recoverability_Reference>
+                            <!--Zero or more repetitions:-->
+                            <wd:ID wd:type="Tax_Recoverability_Object_ID">Fully_Recoverable</wd:ID>
+                        </wd:Tax_Recoverability_Reference>
+                    </wd:Tax_Rate_Data>
+                </wd:Tax_Code_Data>
+
+                <!--Zero or more repetitions:-->
+                <wd:Invoice_Line_Replacement_Data>
+
+                    <wd:Line_Order>1</wd:Line_Order>
+
+
+
+
+                    <wd:Item_Description>test invoice line</wd:Item_Description>
+                    <wd:Spend_Category_Reference>
+                        <!--Zero or more repetitions:-->
+                        <wd:ID wd:type="Spend_Category_ID">SC_046</wd:ID>
+                    </wd:Spend_Category_Reference>
+
+					<wd:Quantity>1</wd:Quantity>
+                            <wd:Unit_of_Measure_Reference>
+
+                                <wd:ID wd:type="UN_CEFACT_Common_Code_ID">EA</wd:ID>
+
+                            </wd:Unit_of_Measure_Reference>
+                            <wd:Unit_Cost>1</wd:Unit_Cost>
+                            <wd:Extended_Amount>1.0</wd:Extended_Amount>
+                     <wd:Memo>LineMEmoTest</wd:Memo>
+                    <!--Zero or more repetitions:-->
+                    <wd:Worktags_Reference>
+                        <wd:ID wd:type="Cost_Center_Reference_ID">CC_004</wd:ID>
+                    </wd:Worktags_Reference>
+					<wd:Worktags_Reference>
+                        <wd:ID wd:type="Organization_Reference_ID">PD_0054</wd:ID>
+                    </wd:Worktags_Reference>
+
+
+
+                    <wd:Tax_Applicability_Reference>
+                        <!--Zero or more repetitions:-->
+                        <wd:ID wd:type="Tax_Applicability_ID">Purchase_GST</wd:ID>
+                    </wd:Tax_Applicability_Reference>
+                    <!--Optional:-->
+                    <wd:Tax_Code_Reference>
+                        <!--Zero or more repetitions:-->
+                        <wd:ID wd:type="Tax_Code_ID">AUS_Standard</wd:ID>
+                    </wd:Tax_Code_Reference>
+                    <!--Optional:-->
+                    <wd:Tax_Rate_Options_Data>
+                        <!--Optional:-->
+                        <wd:Tax_Recoverability_1_Reference>
+                            <!--Zero or more repetitions:-->
+                            <wd:ID wd:type="Tax_Recoverability_Object_ID">Fully_Recoverable</wd:ID>
+                        </wd:Tax_Recoverability_1_Reference>
+                        <!--Optional:-->
+                        <wd:Tax_Option_1_Reference>
+                            <!--Zero or more repetitions:-->
+                            <wd:ID wd:type="Tax_Option_ID">CALC_TAX_DUE</wd:ID>
+                        </wd:Tax_Option_1_Reference>
+                    </wd:Tax_Rate_Options_Data>
+                </wd:Invoice_Line_Replacement_Data>
+
+
+            </wd:Supplier_Invoice_Data>
+        </wd:Submit_Supplier_Invoice_Request>
+    </env:Body>
+</env:Envelope>
