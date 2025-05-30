@@ -21,7 +21,7 @@
       "date": "Supplier_Invoice_Data.Invoice_Received_Date",
       "company_currency_id_display_name": "Supplier_Invoice_Data.Currency_Reference.ID.value",
       "#Currency_ID": "Supplier_Invoice_Data.Currency_Reference.ID.type",
-      "#Net_30": "Supplier_Invoice_Data.Payment_Terms_Reference[0].ID.value",
+      "invoice_payment_term_id_name": "Supplier_Invoice_Data.Payment_Terms_Reference[0].ID.value",
       "#Payment_Terms_ID": "Supplier_Invoice_Data.Payment_Terms_Reference[0].ID.type",
       "attachments": {
         "*": {
@@ -86,7 +86,7 @@
           "#LineMEmoTest": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Memo",
           "#CC_004": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[0].ID.value",
           "#Cost_Center_Reference_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[0].ID.type",
-          "#PD_0054": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.value",
+          "#PD_9999": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.value",
           "#Organization_Reference_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.type"
         }
       }
