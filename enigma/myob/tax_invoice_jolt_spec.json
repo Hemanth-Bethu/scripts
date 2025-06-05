@@ -19,8 +19,8 @@
       "#Supplier_ID": "Supplier_Invoice_Data.Supplier_Reference.ID[0].type",
       "invoice_date": "Supplier_Invoice_Data.Invoice_Date",
       "date": "Supplier_Invoice_Data.Invoice_Received_Date",
-      "company_currency_id_display_name": "Supplier_Invoice_Data.Currency_Reference.ID.value",
-      "#Currency_ID": "Supplier_Invoice_Data.Currency_Reference.ID.type",
+      //"company_currency_id_display_name": "Supplier_Invoice_Data.Currency_Reference.ID.value",
+      //"#Currency_ID": "Supplier_Invoice_Data.Currency_Reference.ID.type",
       "invoice_payment_term_id_name": "Supplier_Invoice_Data.Payment_Terms_Reference[0].ID.value",
       "#Payment_Terms_ID": "Supplier_Invoice_Data.Payment_Terms_Reference[0].ID.type",
       "attachments": {
@@ -38,13 +38,11 @@
         }
       },
       "amount_tax": {
-        "0": { "": "" },
-        "0.0": { "": "" },
         "*": {
           "@(2,amount_tax)": "Supplier_Invoice_Data.Tax_Code_Data.Tax_Rate_Data.Tax_Amount",
           "#Purchase_GST": "Supplier_Invoice_Data.Tax_Code_Data.Tax_Applicability_Reference[0].ID.value",
           "#Tax_Applicability_ID": "Supplier_Invoice_Data.Tax_Code_Data.Tax_Applicability_Reference[0].ID.type",
-          "#AUS_Standard": [
+          "@(2,header_tax_code)": [
         "Supplier_Invoice_Data.Tax_Code_Data.Tax_Code_Reference[0].ID.value",
         "Supplier_Invoice_Data.Tax_Code_Data.Tax_Rate_Data.Tax_Rate_Reference[0].ID.value"
       ],
@@ -57,12 +55,10 @@
       "line_items": {
         "*": {
           "tax_percent": {
-            "0": { "": "" },
-            "0.0": { "": "" },
             "*": {
               "#Fully_Recoverable": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Rate_Options_Data.Tax_Recoverability_1_Reference[0].ID.value",
               "#Tax_Recoverability_Object_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Rate_Options_Data.Tax_Recoverability_1_Reference[0].ID.type",
-              "#AUS_Standard": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Code_Reference[0].ID.value",
+              "@(2,line_tax_code)": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Code_Reference[0].ID.value",
               "#Tax_Code_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Code_Reference[0].ID.type",
               "#CALC_TAX_DUE": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Rate_Options_Data.Tax_Option_1_Reference[0].ID.value",
               "#Tax_Option_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&3].Tax_Rate_Options_Data.Tax_Option_1_Reference[0].ID.type",
@@ -86,8 +82,9 @@
           "#LineMEmoTest": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Memo",
           "#CC_004": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[0].ID.value",
           "#Cost_Center_Reference_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[0].ID.type",
-          "#PD_9999": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.value",
-          "#Organization_Reference_ID": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.type"
+          "#PD_9003": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.value",
+          "#Organization_Reference_ID": ["Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[1].ID.type", "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[2].ID.type"],
+          "#LB_04": "Supplier_Invoice_Data.Invoice_Line_Replacement_Data[&1].Worktags_Reference[2].ID.value"
         }
       }
     }
